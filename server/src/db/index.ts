@@ -1,34 +1,39 @@
-// user
-// id string @unique
-// username string
-// links Link[]
-// password string
+import sqlite3 from "sqlite3";
+import { open, Database } from "sqlite";
 
-// Link
-// id string
-// url string
-// isActive boolean
+let db: Database;
 
-import Database from "better-sqlite3";
+// FULL CHATGPT
+export async function initDB() {
+    db = await open({
+        filename: "data.db",
+        driver: sqlite3.Database,
+    });
 
-export const db = new Database('users.db');
+    await db.exec("PRAGMA foreign_keys = ON;");
 
-db.pragma('foreign_keys = ON');
-
-db.exec(`
+    await db.exec(`
     CREATE TABLE IF NOT EXISTS users (
-        id TEXT PRIMARY KEY,
-        username TEXT UNIQUE NOT NULL,
-        password_hash TEXT NOT NULL,
-    )
-`);
+      id TEXT PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL
+    );
+  `);
 
-db.exec(`
-    CREATE TABLE IF NOT EXISTS links(
-        id TEXT PRIMARY KEY,
-        userid Text NOT NULL,
-        linkURL TEXT UNIQUE NOT NULL,
-        activeURL INTEGER DEFAULT 0
-        FORIGN KEY (userid) REFERENCES users(id)
-    )        
-`);
+    await db.exec(`
+    CREATE TABLE IF NOT EXISTS links (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      url TEXT NOT NULL,
+      is_active INTEGER DEFAULT 1,
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+  `);
+
+    return db;
+}
+
+export function getDB() {
+    if (!db) throw new Error("DB not initialized");
+    return db;
+}
