@@ -24,10 +24,11 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
 
 router.post('/', async (req: Request, res: Response) => {
-    const { userId, url } = req.body;
+    const { userId, url, name } = req.body;
 
     const link = {
         id: uuid(),
+        name,
         userId,
         url,
         active: true

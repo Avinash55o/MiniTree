@@ -7,6 +7,7 @@ export interface User {
 
 export interface Link {
     id: string;
+    name: string;
     userId: string;
     url: string;
     active: boolean;
