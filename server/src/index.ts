@@ -1,11 +1,15 @@
-import express from "express"
-import cors from "cors"
-import 'dotenv/config'
+import express from 'express';
+import { authRouter } from './routes/auth.route.js';
+import { initDB } from './db/index.js';
+
 
 const app = express();
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
 
-app.get('/', (_, res) => res.json({ status: 'healthy' }))
-const PORT = process.env.PORT
-app.listen(PORT, () => console.log(`backend is running on ${PORT}`))
+app.use('/auth', authRouter)
+
+initDB().then(() => {
+    app.listen(8080, () => {
+        console.log('http://localhost:8080');
+    });
+});

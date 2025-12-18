@@ -1,20 +1,24 @@
 {
-	"type": "module",
-	"main": "src/index.ts",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node src/index.js"
-	},
-	"dependencies": {
-		"@libsql/client": "^0.15.15",
-		"bcryptjs": "^3.0.3",
-		"cors": "^2.8.5",
-		"dotenv": "^17.2.3",
-		"express": "^5.2.1"
-	},
-	"devDependencies": {
-		"@types/cors": "^2.8.19",
-		"@types/express": "^5.0.6",
-		"tsx": "^4.21.0"
-	}
+  "name": "server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.25.0",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^5.2.1",
+    "lowdb": "^7.0.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.6"
+  }
 }
