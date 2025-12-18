@@ -25,6 +25,16 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     const { userId, url, name } = req.body;
+    // some used to check as a validation returns true/false and only check if userID and name is there or not
+    const exist_id= db.data!.users.some(u=> u.id === userId)
+    const exist_name=db.data!.users.some(u=> u.username === name);
+    if (!exist_id && exist_name) return res.status(400).json({message: "missing userid or name"});
+
+    //lets check the ounership
+    const user= db.data!.users.find(u=> u.id === userId);
+    if(user?.id !== userId){
+        return res.status(401).json({message:"unauthorized user"})
+    }
 
     const link = {
         id: uuid(),
