@@ -6,5 +6,13 @@
       "password": "$2b$10$A6oo7Ry2ER1OOotBTtKO5umlKuAVHRbepiR/RrmWELUC9kbqPjZYu"
     }
   ],
-  "links": []
+  "links": [
+    {
+      "id": "4e081f65-d02b-41dd-9d5e-410c1816438f",
+      "name": "superuser",
+      "userId": "c457ea15-0b02-44c0-b0af-c61628b208ba",
+      "url": "httpkgytdrerarhf",
+      "active": true
+    }
+  ]
 }
