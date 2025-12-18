@@ -1,75 +1,42 @@
 import { Request, Response, Router } from "express";
-import bcrypt from "bcryptjs";
-import { randomUUID } from "crypto";
+import { v4 as uuid } from 'uuid'
+import bcrypt from 'bcrypt'
 import { db } from "../db/index.js";
 
 const router = Router();
 
-export const sessions = new Map<string, string>();
+router.post('/signup', async (req: Request, res: Response) => {
+    const { username, password } = req.body;
 
-router.post("/signup", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: "missing fields" });
+    }
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "missing fields" });
-  }
+    const exists = db.data!.users.find(u => u.username === username);
+    if (exists) return res.status(400).json({ error: "user exists" });
 
-  const id = randomUUID();
-  const hash = await bcrypt.hash(password, 10);
+    const newUser = {
+        id: uuid(),
+        username,
+        password: bcrypt.hashSync(password, 10),
+    };
 
-  try {
-    await db.execute({
-      sql: `
-        INSERT INTO users (id, username, password_hash)
-        VALUES (?, ?, ?)
-      `,
-      args: [id, username, hash],
-    });
+    db.data!.users.push(newUser);
+    await db.write();
 
-    return res.status(201).json({ message: "user created" });
-  } catch (err) {
-    return res.status(400).json({ error: "username already exists" });
-  }
+    res.json({ message: "user created" });
 });
 
-router.post("/login", async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "missing fields" });
-  }
+    const user = db.data!.users.find(u => u.username === username);
+    if (!user) return res.status(400).json({ error: 'user does not exist' });
 
-  const result = await db.execute({
-    sql: "SELECT * FROM users WHERE username = ?",
-    args: [username],
-  });
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok) return res.status(400).json({ error: 'invalid credentials' });
 
-  const row = result.rows[0];
+    res.json({ userId: user.id });
+})
 
-  if (!row) {
-    return res.status(401).json({ error: "invalid credentials" });
-  }
-
-  const user = {
-    id: String(row.id),
-    username: String(row.username),
-    password_hash: String(row.password_hash),
-  };
-
-  if (!user) {
-    return res.status(401).json({ error: "invalid credentials" });
-  }
-
-  const valid = await bcrypt.compare(password, user.password_hash);
-
-  if (!valid) {
-    return res.status(401).json({ error: "invalid credentials" });
-  }
-
-  const token = randomUUID();
-  sessions.set(token, user.id);
-
-  return res.json({ token });
-});
-
-export default router;
+export { router as authRouter };
