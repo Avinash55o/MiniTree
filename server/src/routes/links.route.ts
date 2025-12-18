@@ -25,15 +25,15 @@ router.get('/user/:id', async (req: Request, res: Response) => {
 
 router.post('/', async (req: Request, res: Response) => {
     const { userId, url, name } = req.body;
-    // some used to check as a validation returns true/false and only check if userID and name is there or not
-    const exist_id= db.data!.users.some(u=> u.id === userId)
-    const exist_name=db.data!.users.some(u=> u.username === name);
-    if (!exist_id && exist_name) return res.status(400).json({message: "missing userid or name"});
 
-    //lets check the ounership
-    const user= db.data!.users.find(u=> u.id === userId);
-    if(user?.id !== userId){
-        return res.status(401).json({message:"unauthorized user"})
+    if (!userId && name && url) return res.status(400).json({ message: "missing userid or name or url" });
+
+    //lets check the ounership 
+    //it become authorization only when our code already know user userID...
+    //For that we will send the userid from frontend and store it in the localstorage
+    const user = db.data!.users.find(u => u.id === userId);
+    if (user?.id !== userId) {
+        return res.status(401).json({ message: "unauthorized user" })
     }
 
     const link = {
@@ -67,5 +67,38 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
     res.json({ message: 'deleted' })
 });
+
+router.patch('/update', async (req: Request, res: Response) => {
+    const { linkID, userId,newURL } = req.body
+    // check all are there or not
+    if (!linkID || !userId || !newURL) {
+        return res.status(400).json({ message: "missing required fields" });
+    }
+
+
+    // check user exists
+    const user = db.data!.users.find(u => u.id === userId);
+    if (!user) {
+        return res.status(401).json({ message: "unauthorized user" });
+    }
+
+    //see the link
+    const link = db.data!.links.find(l => l.id === linkID);
+    if (!link) {
+        return res.status(404).json({ message: "link not found" });
+    };
+    // console.log(link)
+    
+    //check authorization
+    if (link.userId !== userId) {
+        return res.status(403).json({ message: "forbidden: not your link" });
+    }
+    
+    //update
+    link.url = newURL;
+    await db.write();
+
+    return res.status(201).json({ message: "updated successfully",link})
+})
 
 export { router as linksRouter };
