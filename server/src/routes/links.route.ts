@@ -7,11 +7,13 @@ const router = Router();
 // for the actual app; when someone goes to minitree.com/<username>
 // returns only the links owned by <username> + they should be 'active'
 router.get('/:username', async (req: Request, res: Response) => {
-    const links = db.data!.links.filter(l => {
-        if (l.userId === req.params.id && l.active) {
-            return l;
-        }
-    });
+
+    const { username } = req.params;
+
+    const user = db.data!.users.find(u => u.username === username);
+    if (!user) return res.status(404).json([]);
+
+    const links = db.data!.links.filter(l => l.userId === user.id && l.active);
     res.json(links);
 })
 
@@ -69,7 +71,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 });
 
 router.patch('/update', async (req: Request, res: Response) => {
-    const { linkID, userId,newURL } = req.body
+    const { linkID, userId, newURL } = req.body
     // check all are there or not
     if (!linkID || !userId || !newURL) {
         return res.status(400).json({ message: "missing required fields" });
@@ -88,17 +90,17 @@ router.patch('/update', async (req: Request, res: Response) => {
         return res.status(404).json({ message: "link not found" });
     };
     // console.log(link)
-    
+
     //check authorization
     if (link.userId !== userId) {
         return res.status(403).json({ message: "forbidden: not your link" });
     }
-    
+
     //update
     link.url = newURL;
     await db.write();
 
-    return res.status(201).json({ message: "updated successfully",link})
+    return res.status(201).json({ message: "updated successfully", link })
 })
 
 export { router as linksRouter };
