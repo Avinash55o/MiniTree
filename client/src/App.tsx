@@ -4,7 +4,9 @@ import Dashboard from './pages/dashboard';
 import PublicProfile from './pages/profile';
 import AuthPage from './pages/authPage';
 
+
 function App() {
+
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ function App() {
       </Routes>
     </Router>
   );
+
 }
 
 export default App;
