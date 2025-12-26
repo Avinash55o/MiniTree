@@ -17,7 +17,7 @@ export default function PublicProfile() {
     useEffect(() => {
         if (!username) return;
 
-        fetch(`http://localhost:8080/link/${username}`)
+        fetch(`https://minitree.onrender.com/link/${username}`)
             .then(res => {
                 if (!res.ok) throw new Error('User not found');
                 return res.json();
