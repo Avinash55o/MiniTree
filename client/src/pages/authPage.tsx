@@ -31,7 +31,7 @@ export default function AuthPage({ onLogin }: { onLogin: (id: string) => void })
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gray-800 flex items-center justify-center p-4">
             <div className="bg-gray-800 text-white p-8 rounded-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">{isLogin ? 'Login' : 'Sign Up'}</h2>
                 {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
