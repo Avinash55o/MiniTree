@@ -82,8 +82,3 @@ MiniTree/
 └── 📄 docs/           # Project Assets
 ```
 
----
-
-<p align="center">
-  Made with ❤️ by Zoro
-</p>
