@@ -49,7 +49,7 @@ Get your own MiniTree up and running in minutes.
 
 #### 1. Clone & Enter
 ```bash
-git clone <repository-url>
+git clone https://github.com/Avinash55o/MiniTree.git
 cd MiniTree
 ```
 
@@ -57,7 +57,8 @@ cd MiniTree
 ```bash
 cd server
 pnpm install
-pnpm run dev
+pnpm build
+pnpm start
 ```
 > 🌐 Server: `http://localhost:8080`
 
@@ -78,7 +79,6 @@ MiniTree/
 ├── 📱 client/         # React + Vite Frontend
 │   └── src/           # Component-based logic
 ├── ⚙️ server/         # Express Backend
-│   └── src/           # API & Database handlers
-└── 📄 docs/           # Project Assets
+    └── src/           # API & Database handlers
 ```
 
