@@ -20,19 +20,19 @@
 
 MiniTree is a sleek, modern, and lightweight Linktree alternative designed for users who value simplicity and aesthetics. Consolidate your social media links, portfolios, and projects into a single, beautiful landing page.
 
-### 🚀 Key Features
+###  Key Features
 
-- 🔐 **Secure Auth**: Robust signup and login system using BCrypt hashing.
-- 🔗 **Link Management**: Easily **add**, **update**, and **delete** links from your dashboard.
-- � **Link Deactivation**: Temporarily hide links from your profile without deleting them using the **toggle** feature.
-- 🛠️ **Lightweight Backend**: Efficient Node/Express server with Lowdb for a serverless-ready feel.
+-  **Secure Auth**: Robust signup and login system using BCrypt hashing.
+-  **Link Management**: Easily **add**, **update**, and **delete** links from your dashboard.
+- **Link Deactivation**: Temporarily hide links from your profile without deleting them using the **toggle** feature.
+-  **Lightweight Backend**: Efficient Node/Express server with Lowdb for a serverless-ready feel.
 
 ---
 Demo
 <img width="1357" height="537" alt="Screenshot from 2025-12-26 20-13-21" src="https://github.com/user-attachments/assets/e0e91ad3-a10e-4a17-a297-5a2c504bc938" />
 ---
 
-### 🛠️ Tech Stack
+###  Tech Stack
 
 | Frontend | Backend |
 | :--- | :--- |
@@ -43,7 +43,7 @@ Demo
 
 ---
 
-### 🏃 Quick Start
+###  Quick Start
 
 Get your own MiniTree up and running in minutes.
 
@@ -60,7 +60,7 @@ pnpm install
 pnpm build
 pnpm start
 ```
-> 🌐 Server: `http://localhost:8080`
+>  Server: `http://localhost:8080`
 
 #### 3. Launch the Interface (Frontend)
 ```bash
@@ -68,17 +68,17 @@ cd client
 pnpm install
 pnpm run dev
 ```
-> 🚀 Client: `http://localhost:5173`
+>  Client: `http://localhost:5173`
 
 ---
 
-### 📂 Architecture
+###  Architecture
 
 ```bash
 MiniTree/
-├── 📱 client/         # React + Vite Frontend
+├──  client/         # React + Vite Frontend
 │   └── src/           # Component-based logic
-├── ⚙️ server/         # Express Backend
+├──  server/         # Express Backend
     └── src/           # API & Database handlers
 ```
 
