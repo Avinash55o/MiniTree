@@ -16,7 +16,7 @@
 
 ---
 
-### ✨ Overview
+### Overview
 
 MiniTree is a sleek, modern, and lightweight Linktree alternative designed for users who value simplicity and aesthetics. Consolidate your social media links, portfolios, and projects into a single, beautiful landing page.
 
